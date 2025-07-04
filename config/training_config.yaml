@@ -1,0 +1,65 @@
+training:
+  batch_size: 16
+  learning_rate: 5e-5
+  num_epochs: 10
+  warmup_steps: 1000
+  weight_decay: 0.01
+  gradient_accumulation_steps: 4
+  max_grad_norm: 1.0
+  
+  scheduler:
+    type: "cosine"
+    num_warmup_steps: 1000
+    num_training_steps: 10000
+    
+  optimizer:
+    type: "adamw"
+    beta1: 0.9
+    beta2: 0.999
+    eps: 1e-8
+    
+  mixed_precision: true
+  gradient_checkpointing: true
+  
+validation:
+  validation_split: 0.2
+  eval_steps: 500
+  save_steps: 1000
+  logging_steps: 100
+  
+  metrics:
+    - "bleu"
+    - "rouge"
+    - "code_similarity"
+    - "compilation_success"
+    - "functional_correctness"
+    
+synthetic_data:
+  dataset_size: 10000
+  train_split: 0.8
+  val_split: 0.1
+  test_split: 0.1
+  
+  patterns:
+    code_smells: 20
+    refactoring_types: 12
+    complexity_levels: ["low", "medium", "high"]
+    languages: ["python", "java", "javascript"]
+    
+  generation:
+    min_functions_per_class: 3
+    max_functions_per_class: 15
+    min_lines_per_function: 5
+    max_lines_per_function: 50
+    min_classes_per_file: 1
+    max_classes_per_file: 5
+
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/training.log"
+  
+  wandb:
+    project: "code-refactoring-framework"
+    entity: "research-team"
+    tags: ["transformer", "genetic-algorithm", "code-refactoring"]

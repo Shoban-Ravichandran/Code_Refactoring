@@ -1,0 +1,77 @@
+model:
+  codebert:
+    model_name: "microsoft/codebert-base"
+    max_length: 512
+    hidden_size: 768
+    num_attention_heads: 12
+    num_hidden_layers: 12
+    intermediate_size: 3072
+    dropout: 0.1
+    
+  starcoder:
+    model_name: "bigcode/starcoder2-3b"
+    max_length: 1024
+    hidden_size: 2048
+    num_attention_heads: 16
+    num_hidden_layers: 24
+    intermediate_size: 8192
+    dropout: 0.1
+    
+  lora:
+    r: 16
+    lora_alpha: 32
+    lora_dropout: 0.1
+    target_modules: ["q_proj", "v_proj", "k_proj", "o_proj"]
+    
+  ensemble:
+    codebert_weight: 0.4
+    starcoder_weight: 0.6
+    fusion_method: "weighted_average"
+
+genetic_algorithm:
+  nsga2:
+    population_size: 100
+    generations: 50
+    crossover_probability: 0.8
+    mutation_probability: 0.2
+    tournament_size: 3
+    elite_size: 10
+    
+  objectives:
+    - name: "code_quality"
+      weight: 0.3
+      maximize: true
+    - name: "readability"
+      weight: 0.3
+      maximize: true
+    - name: "performance"
+      weight: 0.2
+      maximize: true
+    - name: "maintainability"
+      weight: 0.2
+      maximize: true
+
+refactoring:
+  patterns:
+    - "extract_method"
+    - "inline_method"
+    - "extract_variable"
+    - "inline_variable"
+    - "move_method"
+    - "rename_method"
+    - "extract_class"
+    - "inline_class"
+    - "replace_conditional_with_polymorphism"
+    - "replace_magic_numbers"
+    - "remove_dead_code"
+    - "simplify_conditional"
+    
+  quality_metrics:
+    - "cyclomatic_complexity"
+    - "lines_of_code"
+    - "number_of_methods"
+    - "depth_of_inheritance"
+    - "coupling_between_objects"
+    - "lack_of_cohesion"
+    - "maintainability_index"
+    - "halstead_complexity"
